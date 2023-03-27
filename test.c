@@ -7,7 +7,7 @@
 typedef struct customer{
     long long int telp_num;
     char name[30];
-    char email[20];
+    char email[30];
     int membership_point;
     struct customer *to_lower;
     struct customer *to_greater;
@@ -130,7 +130,7 @@ void process_order(){
         while(true){ //email input
             printf("Input email[10-20][username@email.com | username@email.co.id]:");
             scanf("%[^\n]", inp_cust->email); getchar();
-            if (10 <= strlen(inp_cust->email) || strlen(inp_cust->email) <= 20){
+            if (10 <= strlen(inp_cust->email) && strlen(inp_cust->email) <= 20){
                 bool check_email = true; int Acount = 0;
                 for(int i=0; inp_cust->email[i]!='\0'; i++){
                     if(inp_cust->email[i]=='@'){
