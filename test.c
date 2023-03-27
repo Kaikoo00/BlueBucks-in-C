@@ -63,7 +63,7 @@ void add_data(cust *newnode){
         while(true){
             parent = curr;
             if(newnode->telp_num>curr->telp_num){
-                curr->to_greater;
+                curr = curr->to_greater;
                 if(curr==NULL){
                     parent->to_greater=newnode;
                     break;
@@ -130,7 +130,7 @@ void process_order(){
         while(true){ //email input
             printf("Input email[10-20][username@email.com | username@email.co.id]:");
             scanf("%[^\n]", inp_cust->email); getchar();
-            if(10<=strlen(inp_cust->email)<=20){
+            if (10 <= strlen(inp_cust->email) || strlen(inp_cust->email) <= 20){
                 bool check_email = true; int Acount = 0;
                 for(int i=0; inp_cust->email[i]!='\0'; i++){
                     if(inp_cust->email[i]=='@'){
@@ -294,9 +294,48 @@ cust* remove_customer(cust *head, long long int input_phoneNum) {
         cust *temp = min_value_node(head->to_greater);
         head->telp_num = temp->telp_num;
         head->to_greater = remove_customer(head->to_greater, temp->telp_num);
-        strcpy(head->name, temp->name);
-        head->to_lower = temp->to_lower;
         free(temp);
+    }
+    return head;
+}
+
+cust* deleteNode(cust* head, long long int key) {
+    // base case
+    if (head == NULL) return head;
+
+    // If the key to be deleted is smaller than the root's key,
+    // then it lies in left subtree
+    if (key < head->telp_num)
+        head->to_lower = deleteNode(head->to_lower, key);
+
+    // If the key to be deleted is greater than the root's key,
+    // then it lies in right subtree
+    else if (key > head->telp_num)
+        head->to_greater = deleteNode(head->to_greater, key);
+
+    // if key is same as root's key, then This is the node to be deleted
+    else {
+        // node with only one child or no child
+        if (head->to_lower == NULL) {
+            cust* temp = head->to_greater;
+            free(head);
+            return temp;
+        }
+        else if (head->to_greater == NULL) {
+            cust* temp = head->to_greater;
+            free(head);
+            return temp;
+        }
+
+        // node with two children: Get the inorder successor (smallest
+        // in the right subtree)
+        cust* temp = min_value_node(head->to_greater);
+
+        // Copy the inorder successor's content to this node
+        head->telp_num = temp->telp_num;
+
+        // Delete the inorder successor
+        head->to_greater = deleteNode(head->to_greater, temp->telp_num);
     }
     return head;
 }
@@ -330,6 +369,7 @@ void main_menu(){
             long long int input; scanf("%lld", &input);getchar();
             remove_customer(root, input);
             data_count--;
+            clear();
         }
 
         else if(ch==4){
