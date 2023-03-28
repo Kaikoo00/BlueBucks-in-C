@@ -303,19 +303,12 @@ cust* deleteNode(cust* head, long long int key) {
     // base case
     if (head == NULL) return head;
 
-    // If the key to be deleted is smaller than the root's key,
-    // then it lies in left subtree
     if (key < head->telp_num)
         head->to_lower = deleteNode(head->to_lower, key);
 
-    // If the key to be deleted is greater than the root's key,
-    // then it lies in right subtree
     else if (key > head->telp_num)
         head->to_greater = deleteNode(head->to_greater, key);
-
-    // if key is same as root's key, then This is the node to be deleted
     else {
-        // node with only one child or no child
         if (head->to_lower == NULL) {
             cust* temp = head->to_greater;
             free(head);
@@ -327,14 +320,8 @@ cust* deleteNode(cust* head, long long int key) {
             return temp;
         }
 
-        // node with two children: Get the inorder successor (smallest
-        // in the right subtree)
         cust* temp = min_value_node(head->to_greater);
-
-        // Copy the inorder successor's content to this node
         head->telp_num = temp->telp_num;
-
-        // Delete the inorder successor
         head->to_greater = deleteNode(head->to_greater, temp->telp_num);
     }
     return head;
