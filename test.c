@@ -181,6 +181,7 @@ void process_order(){
                     printf("How much[%d left]: ",curr->membership_point);
                     scanf("%d", &point_used);getchar();
                     if(point_used%25==0 && point_used<=curr->membership_point){
+                        curr->membership_point-=point_used;
                         break;
                     }else{
                         continue;
