@@ -256,7 +256,7 @@ void view_customer_list(cust *head){
     }
 
     view_customer_list(head->to_lower);
-    printf("| %-25s | %-13lld | %-25s | %-6d |\n", head->name, head->telp_num, head->email, head->membership_point);
+    printf("| %-25s |0%-13lld | %-25s | %-6d |\n", head->name, head->telp_num, head->email, head->membership_point);
     printf("----------------------------------------------------------------------------------\n");
     view_customer_list(head->to_greater);
     return;
